@@ -14,10 +14,13 @@ const Appointment = () => {
         setSelectedDate={setSelectedDate}
       />
 
-      <AvailableAppointment selectedDate={selectedDate} setTreatmentName={setTreatment}/>
+      <AvailableAppointment selectedDate={selectedDate} setTreatment={setTreatment}/>
       {
         treatment &&
-        <AppointModal treatment={treatment} selectedDate={selectedDate}/>
+        <AppointModal
+        setTreatment={setTreatment}
+        treatment={treatment}
+        selectedDate={selectedDate}/>
       }
     </>
   )

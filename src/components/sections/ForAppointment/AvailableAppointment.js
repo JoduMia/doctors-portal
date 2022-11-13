@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {format} from "date-fns";
 import { useEffect } from 'react';
 
-const AvailableAppointment = ({selectedDate, setTreatmentName}) => {
+const AvailableAppointment = ({selectedDate, setTreatment}) => {
     const [loading, setLoading] = useState(false);
     const [appoints, setAppoints] = useState([]);
 
@@ -34,7 +34,7 @@ const AvailableAppointment = ({selectedDate, setTreatmentName}) => {
 
 
                         <label
-                        onClick={() => setTreatmentName(appoint)}
+                        onClick={() => setTreatment(appoint)}
                         htmlFor='booking-appointment'
                         disabled={slots.length === 0}
 

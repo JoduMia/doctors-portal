@@ -1,7 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns'
 
-const AppointModal = ({ treatment, selectedDate }) => {
+const AppointModal = ({ treatment, selectedDate,setTreatment}) => {
     const { name, slots } = treatment; //treatment means selected disease from the options
 
     const handleSubmit = (e) => {
@@ -15,6 +15,7 @@ const AppointModal = ({ treatment, selectedDate }) => {
         const slot = form.slot.value;
 
         console.log(name,email,phone,message,date,slot);
+        setTreatment(null);
     };
 
     return (

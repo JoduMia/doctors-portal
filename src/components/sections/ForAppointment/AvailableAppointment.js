@@ -36,8 +36,9 @@ const AvailableAppointment = ({selectedDate, setTreatmentName}) => {
                         <label
                         onClick={() => setTreatmentName(appoint)}
                         htmlFor='booking-appointment'
+                        disabled={slots.length === 0}
 
-                        className=" w-[70%] mx-auto btn btn-primary bg-gradient-to-r from-[#19D3AE] to-[#0FCFEC] hover:bg-gradient-to-l duration-300 uppercase ">
+                        className=" w-[70%] mx-auto btn btn-primary bg-gradient-to-r from-[#19D3AE] to-[#0FCFEC] hover:bg-gradient-to-l duration-300 uppercase disabled:!text-opacity-100">
 
                         Book appointment
                         </label>

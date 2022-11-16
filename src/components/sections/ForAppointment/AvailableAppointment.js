@@ -8,10 +8,13 @@ const AvailableAppointment = ({selectedDate, setTreatment}) => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('data.json')
-
-        .then(res => res.json())
+        fetch('http://localhost:5000/appoints')
+        .then(res => {
+            console.log(res);
+            return res.json();
+        })
         .then(data => {
+            console.log(data);
             setAppoints(data);
             setLoading(false)
         })

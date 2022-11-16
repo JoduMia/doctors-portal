@@ -1,37 +1,42 @@
 import React from 'react';
 import { useContext } from 'react';
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 import bg from '../../assets/images/appointment.png'
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
-const Login = () => {
+const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const {user, loading, setLoading, emailPassSignIn} = useContext(AuthContext);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location?.state?.from?.pathname || '/';
-  const handleLogin = data => {
-    const {email,password} = data;
-    emailPassSignIn(email, password)
-    .then(() => {
-      navigate(from, {replace: true})
-      setLoading(false)
-    }).catch(()=> {})
-    .finally(() => setLoading(false))
+  const {emailPassUserCreate, loading,setLoading,updateUser} = useContext(AuthContext);
+  const handleLogin = (data) => {
+    const {name,email, password} = data;
+    emailPassUserCreate(email,password).then(result => {
+        console.log(result.user);
+        updateUser({displayName: name}).then(toast.success('User Created and Updated Successfully!!!'))
+    })
   };
 
   return (
     <div className='bg-cover bg-center bg-no-repeat h-[80vh] flex justify-center items-center' style={{ backgroundImage: `url(${bg})` }}>
       <div className='py-10 mx-auto md:w-[400px] shadow-lg px-6'>
-        <h3 className='text-4xl font-bold text-[#19d3ae] text-center mb-8 uppercase'>Login</h3>
+        <h3 className='text-4xl font-bold text-[#19d3ae] text-center mb-8 uppercase'>Register</h3>
         <form onSubmit={handleSubmit(handleLogin)} className='space-y-3'>
+
+        <div>
+            <label htmlFor="name" className='text-white font-medium  pl-2'>Your Name</label>
+            <input type="text" className="input input-bordered input-accent w-full bg-white"
+              {...register('name', { required: true })}
+            />
+            {errors.name && <span className='text-red-600'>Please Enter Name</span>}
+          </div>
+
           <div>
             <label htmlFor="email" className='text-white font-medium  pl-2'>Your Email Address</label>
             <input type="email" className="input input-bordered input-accent w-full bg-white"
-              {...register('email', { required: 'Enter Your email address' })}
+              {...register('email', { required: true })}
             />
-            {errors.email && <span className='text-red-600'>{errors.email.message}</span>}
+            {errors.mail && <span className='text-red-600'>Please Enter Your email Address</span>}
           </div>
 
           <div>
@@ -40,14 +45,13 @@ const Login = () => {
               {...register('password', { required: true })}
             />
             {errors.password && <span className='text-red-600'>Please Enter Your Password</span>}
-            <label className='label  font-medium  pl-2'>Forget Password?</label>
           </div>
 
           <div className='text-center'>
             <button type='submit' className="btn btn-primary bg-gradient-to-r from-[#19D3AE] to-[#0FCFEC] hover:bg-gradient-to-l duration-300 block w-full mx-auto">Submit</button>
           </div>
         </form>
-        <h1 className='text-center py-1'>New to doctors portal? <Link to={'/register'} className='text-success'>Create an account.</Link></h1>
+        <h1 className='text-center py-1'>Have an account? <Link to={'/login'} className='text-success'>Sign in</Link></h1>
         <div className="divider text-white">OR</div>
 
         <div className='text-center'>
@@ -60,4 +64,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register;

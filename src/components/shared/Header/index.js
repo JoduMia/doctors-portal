@@ -1,17 +1,36 @@
 import React from 'react'
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 
-const menuItems =
-<>
-  <li><Link to='/'>Home</Link></li>
-  <li><Link to='/about'>About</Link></li>
-  <li><Link to='/reviews'>Reviews</Link></li>
-  <li><Link to='/appointment'>Apponinment</Link></li>
-  <li><Link to='/contact'>Contact Us</Link></li>
-  <li><Link to='/Login'>Login</Link></li>
-</>
+
 
 const Header = () => {
+  const { user, loading, logOut } = useContext(AuthContext);
+
+  const signOut = () => {
+    logOut().then(result => console.log(result))
+  };
+
+  const menuItems =
+    <>
+      <li><Link to='/'>Home</Link></li>
+      <li><Link to='/about'>About</Link></li>
+      <li><Link to='/appointment'>Apponinment</Link></li>
+      <li><Link to='/contact'>Contact Us</Link></li>
+      {
+        user?.uid ?
+          <>
+            <li><Link to='/dashboard'>Dashboard</Link></li>
+            <button onClick={signOut}>LogOut</button>
+          </>
+          :
+          <li><Link to='/login'>Login</Link></li>
+      }
+    </>
+
+
+
   return (
     <div className="navbar flex justify-between text-gray-800">
       <div className="navbar-start">

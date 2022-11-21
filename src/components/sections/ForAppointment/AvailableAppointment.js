@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format } from "date-fns";
 import { useQuery } from '@tanstack/react-query';
+import AppointModal from './AppointModal';
 
-const AvailableAppointment = ({ selectedDate, setTreatment }) => {
+const AvailableAppointment = ({ selectedDate }) => {
+    const [treatment, setTreatment] = useState(null);
+
 
     //checking if date is deselected then it will not give an error.
     const date = selectedDate ? format(selectedDate, 'PP') : null;
 
-    const { data: appoints, isLoading, isError } = useQuery({
+    const { data: appoints, isLoading, isError, refetch } = useQuery({
         queryKey: ['appoints', date],
         queryFn: () => fetch(`http://localhost:5000/appoints?date=${date}`)
             .then(res => {
@@ -99,6 +102,18 @@ const AvailableAppointment = ({ selectedDate, setTreatment }) => {
                         <p className='text-success text-lg font-medium'>Loading...</p>
                     </div>
             } */}
+
+            <div>
+                {
+                    treatment &&
+                    <AppointModal
+                        setTreatment={setTreatment}
+                        treatment={treatment}
+                        selectedDate={selectedDate}
+                        refetch={refetch}
+                    />
+                }
+            </div>
         </div>
     )
 }

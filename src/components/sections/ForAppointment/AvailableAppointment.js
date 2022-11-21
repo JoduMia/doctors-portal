@@ -1,3 +1,4 @@
+import React from 'react';
 import { format } from "date-fns";
 import { useQuery } from '@tanstack/react-query';
 
@@ -8,12 +9,10 @@ const AvailableAppointment = ({ selectedDate, setTreatment }) => {
 
     const { data: appoints, isLoading, isError } = useQuery({
         queryKey: ['appoints'],
-        queryFn: async () => {
-            const res = await fetch('http://localhost:5000/appoints');
-            const data = await res.json();
-            return data;
-        }
-
+        queryFn: () => fetch('http://localhost:5000/appoints')
+            .then(res => {
+                return res.json();
+            })
     })
 
     // useEffect(() => {

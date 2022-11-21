@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns'
 import { useContext } from 'react';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
+import toast from 'react-hot-toast';
 
 const AppointModal = ({ treatment, selectedDate, setTreatment }) => {
     const { name, slots,_id } = treatment; //treatment means selected disease from the options
@@ -26,7 +27,11 @@ const AppointModal = ({ treatment, selectedDate, setTreatment }) => {
             },
             body: JSON.stringify(doc)
         }).then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => {
+            if(data.acknowledged){
+                toast.success("Appointments taken successfully");
+            }
+        })
         setTreatment(null);
     };
 

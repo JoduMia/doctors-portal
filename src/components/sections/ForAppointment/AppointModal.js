@@ -32,6 +32,8 @@ const AppointModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
             if(data.acknowledged){
                 toast.success("Boooking successfully");
                 refetch();
+            }else {
+                toast.error(data.message)
             }
         })
         setTreatment(null);

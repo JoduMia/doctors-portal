@@ -12,6 +12,7 @@ const AppointModal = ({ treatment, selectedDate, setTreatment }) => {
         e.preventDefault();
         const form = e.target;
         const patientName = form.name.value;
+        const disease = name;
         const email = form.email.value;
         const phone = form.phone.value;
         const message = form.message.value;
@@ -19,7 +20,7 @@ const AppointModal = ({ treatment, selectedDate, setTreatment }) => {
         const slot = form.slot.value;
         const service = _id;
 
-        const doc = {patientName, email, phone, message, date, slot, service};
+        const doc = {patientName, disease, email, phone, message, date, slot, service};
         fetch(`http://localhost:5000/schedule` , {
             method: 'POST',
             headers: {

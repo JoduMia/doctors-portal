@@ -3,13 +3,13 @@ import { format } from "date-fns";
 import { useQuery } from '@tanstack/react-query';
 
 const AvailableAppointment = ({ selectedDate, setTreatment }) => {
-    // const [loading, setLoading] = useState(false);
-    // const [appoints, setAppoints] = useState([]);
 
+    //checking if date is deselected then it will not give an error.
+    const date = selectedDate ? format(selectedDate, 'PP') : null;
 
     const { data: appoints, isLoading, isError } = useQuery({
-        queryKey: ['appoints'],
-        queryFn: () => fetch('http://localhost:5000/appoints')
+        queryKey: ['appoints', date],
+        queryFn: () => fetch(`http://localhost:5000/appoints?date=${date}`)
             .then(res => {
                 return res.json();
             })

@@ -8,11 +8,12 @@ const AvailableAppointment = ({ selectedDate, setTreatment }) => {
 
     const { data: appoints, isLoading, isError } = useQuery({
         queryKey: ['appoints'],
-        queryFn: () => fetch('http://localhost:5000/appointsd')
-            .then(res => {
-                console.log(res);
-                return res.json();
-            })
+        queryFn: async () => {
+            const res = await fetch('http://localhost:5000/appoints');
+            const data = await res.json();
+            return data;
+        }
+
     })
 
     // useEffect(() => {

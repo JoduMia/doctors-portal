@@ -1,20 +1,32 @@
 import React from 'react';
 import { format } from 'date-fns'
+import { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
 
-const AppointModal = ({ treatment, selectedDate,setTreatment}) => {
-    const { name, slots } = treatment; //treatment means selected disease from the options
+const AppointModal = ({ treatment, selectedDate, setTreatment }) => {
+    const { name, slots,_id } = treatment; //treatment means selected disease from the options
+    const { user } = useContext(AuthContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = e.target;
-        const name = form.name.value;
+        const patientName = form.name.value;
         const email = form.email.value;
         const phone = form.phone.value;
         const message = form.message.value;
         const date = form.date.value;
         const slot = form.slot.value;
+        const service = _id;
 
-        console.log(name,email,phone,message,date,slot);
+        const doc = {patientName, email, phone, message, date, slot, service};
+        fetch(`http://localhost:5000/schedule` , {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(doc)
+        }).then(res => res.json())
+        .then(data => console.log(data))
         setTreatment(null);
     };
 
@@ -31,12 +43,14 @@ const AppointModal = ({ treatment, selectedDate,setTreatment}) => {
 
                         <select name='slot' required className="select select-success bg-white text-[#161056] w-full">
                             <option disabled >Select Your Time</option>
-                            {slots.map((slot,index) => <option value={slot} key={index}>{slot}</option>)}
+                            {slots.map((slot, index) => <option value={slot} key={index}>{slot}</option>)}
                         </select>
 
 
-                        <input type="text" placeholder="Your Name" name='name' required className="input input-bordered input-accent w-full bg-white" />
-                        <input type="email" name='email' placeholder="Email address" className="input input-bordered input-accent w-full bg-white" />
+                        <input type="text" placeholder="Your Name" defaultValue={user?.displayName} name='name' disabled required className="input input-bordered input-accent w-full bg-white disabled:bg-gray-300
+                            disabled:text-black " />
+                        <input type="email" defaultValue={user?.email} disabled name='email' placeholder="Email address" className="input input-bordered input-accent w-full bg-white disabled:bg-gray-300
+                        disabled:text-black " />
 
                         <input type="number" placeholder="Phone" required name='phone' className="input input-bordered input-accent w-full bg-white" />
                         <textarea cols='5' name='message' required rows='10' type="text" placeholder="Briefly write about disease." className="input input-bordered input-accent w-full bg-white" />

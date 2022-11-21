@@ -2,17 +2,22 @@ import React from 'react';
 import { useContext } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import bg from '../../assets/images/appointment.png'
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const {emailPassUserCreate, loading,setLoading,updateUser} = useContext(AuthContext);
+  const navigate = useNavigate();
+
+
+
   const handleLogin = (data) => {
     const {name,email, password} = data;
     emailPassUserCreate(email,password).then(result => {
         console.log(result.user);
+        navigate('/')
         updateUser({displayName: name}).then(toast.success('User Created and Updated Successfully!!!'))
     })
   };

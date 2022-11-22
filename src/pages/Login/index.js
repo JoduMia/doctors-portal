@@ -7,7 +7,7 @@ import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const {user, loading, setLoading, emailPassSignIn} = useContext(AuthContext);
+  const { setLoading, emailPassSignIn} = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || '/';

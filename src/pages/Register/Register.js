@@ -8,7 +8,7 @@ import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const {emailPassUserCreate, loading,setLoading,updateUser} = useContext(AuthContext);
+  const {emailPassUserCreate, updateUser} = useContext(AuthContext);
   const navigate = useNavigate();
 
 
@@ -37,7 +37,16 @@ const Register = () => {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      getToken(email);
+    })
+  };
+
+
+  const getToken = (email) => {
+    fetch(`http://localhost:5000/jwt?email=${email}`)
+    .then(res => res.json())
+    .then(data => {
+      localStorage.setItem('token', data.token);
       navigate('/');
       toast.success('User Created and Updated Successfully!!!');
     })

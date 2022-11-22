@@ -1,22 +1,33 @@
 import React from 'react';
+import { useState } from 'react';
 import { useContext } from 'react';
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import bg from '../../assets/images/appointment.png'
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import useToken from '../../hooks/useToken';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { setLoading, emailPassSignIn} = useContext(AuthContext);
+  const [signInEmail, setSignInEmail] = useState('');
+  const [token] = useToken(signInEmail);
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || '/';
+
+  if(token) {
+    navigate(from, {replace: true})
+  }
+
+
   const handleLogin = data => {
     const {email,password} = data;
     emailPassSignIn(email, password)
     .then(() => {
-      navigate(from, {replace: true})
-      setLoading(false)
+      setSignInEmail(email);
+      setLoading(false);
     }).catch(()=> {})
     .finally(() => setLoading(false))
   };

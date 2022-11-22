@@ -2,6 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, Route } from "react-rout
 import DashboardLayout from "../layouts/DashboardLayout/DashboardLayout";
 import Main from "../layouts/Main";
 import Appointment from "../pages/Appointment/Appointment";
+import AllUsers from "../pages/Dashboard/AllUsers";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -20,6 +21,7 @@ export const routes = createBrowserRouter(createRoutesFromElements(
 
         <Route path="/dashboard" element={ <PrivateRoute><DashboardLayout /></PrivateRoute>}>
             <Route index element={ <Dashboard />} />
+            <Route path="/dashboard/allusers" element={ <AllUsers />} />
         </Route>
     </Route>
 ))

@@ -1,7 +1,8 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import Dashboard from "../layouts/Dashboard/Dashboard";
+import DashboardLayout from "../layouts/DashboardLayout/DashboardLayout";
 import Main from "../layouts/Main";
 import Appointment from "../pages/Appointment/Appointment";
+import Dashboard from "../pages/Dashboard/Dashboard";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register/Register";
@@ -16,8 +17,9 @@ export const routes = createBrowserRouter(createRoutesFromElements(
             <Route path='/register' element={<Register />} />
             <Route path='/appointment' element={<Appointment />} />
         </Route>
-        <Route path="/dashboard" element={ <PrivateRoute><Dashboard /></PrivateRoute>}>
 
+        <Route path="/dashboard" element={ <PrivateRoute><DashboardLayout /></PrivateRoute>}>
+            <Route index element={ <Dashboard />} />
         </Route>
     </Route>
 ))

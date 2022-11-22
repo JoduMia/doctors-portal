@@ -1,15 +1,25 @@
 import React from 'react';
+import { useState } from 'react';
 import { useContext } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import bg from '../../assets/images/appointment.png'
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
+import useToken from '../../hooks/useToken';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const {emailPassUserCreate, updateUser} = useContext(AuthContext);
+  const [createdEmail, setCreatedEmail] = useState('');
+  const [token] = useToken(createdEmail);
   const navigate = useNavigate();
+
+
+  if(token) {
+    navigate('/');
+    toast.success('User created and updated successfully');
+  }
 
 
 
@@ -20,6 +30,7 @@ const Register = () => {
         updateUser({displayName: name})
         .then(() => {
           saveUser(name, email)
+
         })
     })
   };
@@ -37,20 +48,12 @@ const Register = () => {
     })
     .then(res => res.json())
     .then(data => {
-      getToken(email);
+      setCreatedEmail(email);
     })
   };
 
 
-  const getToken = (email) => {
-    fetch(`http://localhost:5000/jwt?email=${email}`)
-    .then(res => res.json())
-    .then(data => {
-      localStorage.setItem('token', data.token);
-      navigate('/');
-      toast.success('User Created and Updated Successfully!!!');
-    })
-  };
+
 
   return (
     <div className='bg-cover bg-center bg-no-repeat h-[80vh] flex justify-center items-center' style={{ backgroundImage: `url(${bg})` }}>
